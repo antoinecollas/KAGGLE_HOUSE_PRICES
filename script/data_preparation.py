@@ -7,6 +7,9 @@ from scipy.stats import skew
 from IPython.display import display
 import matplotlib.pyplot as plt
 import seaborn as sns
+from scipy.stats import kstest
+from scipy.stats import norm, boxcox
+from scipy.special import boxcox1p
 
 pd.set_option('display.float_format', lambda x: '%.3f' % x)
 
@@ -155,6 +158,13 @@ def main():
     categorical_features = complete_set.select_dtypes(include = ["object"]).columns
     numerical_features = complete_set.select_dtypes(exclude = ["object"]).columns
 
+    skewed = complete_set[numerical_features].drop(['SalePrice'], axis=1).apply(lambda x: skew(x.dropna().astype(float)))
+    skewed = skewed[skewed > 0.75]
+    skewed = skewed.index
+    for i in skewed:
+        complete_set[i]= boxcox1p(complete_set[i], 0.15)
+    complete_set["SalePrice"] = np.log(complete_set["SalePrice"])
+
     complete_set_categorical_features = complete_set[categorical_features]
     dummies = pd.get_dummies(complete_set_categorical_features)
 
@@ -176,4 +186,4 @@ def main():
 
     return X_train, y_train, X_test
 
-# main()
+#main()
