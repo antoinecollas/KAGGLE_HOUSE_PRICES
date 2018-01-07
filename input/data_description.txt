@@ -1,3 +1,4 @@
+
 MSSubClass: Identifies the type of dwelling (habitation) involved in the sale.	
 
         20	1-STORY 1946 & NEWER ALL STYLES
