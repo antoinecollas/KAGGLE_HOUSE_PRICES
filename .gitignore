@@ -1,3 +1,4 @@
 key.pem
 connect_EC2.sh
 script/__pycache__/
+script/.ipynb_checkpoints/
